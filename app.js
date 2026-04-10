@@ -1,7 +1,16 @@
 import express from 'express';
 import { PORT } from './config/env.js'
+import userRouter from './routes/user.routes.js';
+import authRouter from './routes/auth.routes.js';
+import subscriptionRouter from './routes/subscription.route.js';
 
 const app = express();
+
+// middlewares
+
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/subscriptions', subscriptionRouter);
 
 // this is our first route
 app.get('/', (req, res) =>{ 
