@@ -5,7 +5,7 @@ config({path:`.env.${process.env.NODE_ENV || 'development'}.local`});
 // this path is for local and and development
 
 
-export const {PORT, NODE_ENV} = process.env; // switch between dev and prod without overriding one another
+export const {PORT, NODE_ENV, DB_URI} = process.env; // switch between dev and prod without overriding one another
 
 
 

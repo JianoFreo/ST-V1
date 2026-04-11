@@ -3,6 +3,7 @@ import { PORT } from './config/env.js'
 import userRouter from './routes/user.routes.js';
 import authRouter from './routes/auth.routes.js';
 import subscriptionRouter from './routes/subscription.route.js';
+import connectToDatabase from './database/mongodb.js'
 
 const app = express();
 
@@ -13,14 +14,15 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
 
 // this is our first route
-app.get('/', (req, res) =>{ 
+app.get('/', (req, res) => { 
     res.send('welcome to the subscription tracker API!');
 });
 
 // we have to make our server listen for req trying to access specific routes
 //starts the server
-app.listen(PORT, /*hostname,*/ /*callback function*/() => {
+app.listen(PORT, /*hostname,*/ /*callback function*/async () => {
     console.log(`subscription tracker API is running on port http://localhost:${PORT}`);
+    await connectToDatabase()
 });
 
 export default app;
