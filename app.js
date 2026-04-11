@@ -1,17 +1,29 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
+
 import { PORT } from './config/env.js'
 import userRouter from './routes/user.routes.js';
 import authRouter from './routes/auth.routes.js';
 import subscriptionRouter from './routes/subscription.route.js';
 import connectToDatabase from './database/mongodb.js'
+import errorMiddleware from './middlewares/error.middleware.js';
+
 
 const app = express();
-
-// middlewares
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
+
+// middlewares
+app.use(errorMiddleware)
+
+//Built in middlewares
+app.use(express.json()); // to parse incoming JSON data in the request body
+app.use(express.urlencoded({ extended: false})); // to parse URL-encoded data (like form submissions) in the request body
+app.use(cookieParser()); // to parse cookies from the incoming requests, 
+// making them available in req.cookies for easy access and manipulation. 
+// Has to be imported first before using it as a middleware. 
 
 // this is our first route
 app.get('/', (req, res) => { 
