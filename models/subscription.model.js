@@ -120,6 +120,6 @@ subscriptionSchema.pre('save', function (next) {
 on the userSchema that was defined earlier. This model will allow you to interact with the 'User'
 collection in the MongoDB database. By defining a model, you can perform operations such as
 creating, reading, updating, and deleting user documents in the database using Mongoose methods. */
-const User = mongoose.model('subscriptionSchema', userSchema);
+const Subscription = mongoose.model('Subscription', userSchema);
 
-export default subscriptionSchema;
+export default Subscription;
