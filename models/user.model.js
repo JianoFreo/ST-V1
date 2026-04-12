@@ -1,3 +1,10 @@
+//what is mongoose? -> Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. 
+// It provides a straightforward, schema-based solution to model your application data. 
+// With Mongoose, you can define schemas for your data, 
+// which allows you to enforce structure and validation rules on your MongoDB documents. 
+// It also provides powerful features such as middleware, virtuals, and population, 
+// making it easier to work with MongoDB in a more organized and efficient way. In this code snippet, 
+// we are using Mongoose to define a schema for a user and create a model based on that schema to interact with the MongoDB database.
 import mongoose from 'mongoose';
 
 /* This code snippet is defining a Mongoose schema for a user in a MongoDB database. It specifies the
