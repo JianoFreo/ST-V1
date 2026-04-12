@@ -7,6 +7,12 @@ import { JWT_SECRET, JWT_EXPIRES_IN } from "../config/env.js";
 // what is a req body? -> the data sent by the client to the server in an HTTP request, typically used to submit form data or JSON payloads. It is accessed on the server side through the `req.body` property in Express.js, allowing the server to process and respond to the client's request based on the provided data.
 // req.body is an object containing data from the client (POST request) 
 export const signUp = async (req, res, next) => {
+
+//req → incoming request
+// res → response you send back
+// next → “go to the next function in the chain”
+
+
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
@@ -61,6 +67,36 @@ export const signUp = async (req, res, next) => {
         next(error);
     }
 }
-export const signIn = (req, res) => { }
+export const signIn = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        // find the user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            const error = new Error('user not found');
+            error.statusCode = 401; // 401 means unauthorized, which is appropriate for authentication failures
+            throw error;
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            const error = new Error('Invalid password');
+            error.statusCode = 401; // 401 means unauthorized, which is appropriate for authentication failures
+            throw error;
+        }
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+        res.status(200).json({ // 200 means OK, which is appropriate for successful requests
+            success: true,
+            message: 'User signed in successfully', 
+            data: {
+                token,
+                user, //User (uppercase) in import User ... is the Mongoose model/class name, so PascalCase is standard.
+//user (lowercase) in response JSON is just a data field/variable, so lowercase camelCase is standard.
+            }
+        });
+    } catch (error) {
+        next(error);
+    } 
+};
 
 export const signOut = (req, res) => { }
