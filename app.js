@@ -5,6 +5,10 @@ import { PORT } from './config/env.js'
 import userRouter from './routes/user.routes.js';
 import authRouter from './routes/auth.routes.js';
 import subscriptionRouter from './routes/subscription.route.js';
+import workflowRouter from './routes/workflow.routes.js';
+
+
+
 import connectToDatabase from './database/mongodb.js'
 import errorMiddleware from './middlewares/error.middleware.js';
 import arcjetMiddleware from './middlewares/arcjet.middleware.js';
@@ -23,14 +27,14 @@ app.use(express.urlencoded({ extended: false})); // to parse URL-encoded data (l
 app.use(cookieParser()); // to parse cookies from the incoming requests, 
 // making them available in req.cookies for easy access and manipulation. 
 // Has to be imported first before using it as a middleware. 
-app.use(errorMiddleware); // middlewares
 
 
 // this is where we use the routers we created in the routes folder.
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
-
+app.use('/api/v1/workflows', workflowRouter);
+app.use(errorMiddleware); // Keep error middleware after all routes
 
 // this is our first route
 app.get('/', (req, res) => { 

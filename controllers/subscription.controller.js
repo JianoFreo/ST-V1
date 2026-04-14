@@ -1,4 +1,6 @@
 import Subscription from "../models/subscription.model.js";
+import { workflowClient } from "../config/upstash.js";
+import { SERVER_URL } from "../config/env.js";
 
 export const getAllSubscriptions = async (req, res, next) => {
     try {
@@ -65,8 +67,25 @@ export const createSubscription = async (req, res, next) => {
             ...req.body,
             user: req.user._id
         });
+        // ----------------this is the provided version-----------------
+        // it doesnt work because in newer versions of mongoose, the pre-save middleware is async by default, 
+        // so you need to use async/await or return a promise, otherwise it will not work properly, 
+        // and you may end up with unhandled promise rejections or other issues. So the second version of the pre-save middleware is the 
+        // correct way to do it in newer versions of mongoose.
 
-        res.status(201).json({ success: true, data: subscription });
+        //await workflowClient.trigger({url, body, headers, workflowRunId, retries} , {
+        //     url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
+        // })
+
+        const { workflowRunId }  = await workflowClient.trigger({
+            url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
+            body: {
+                subscriptionID: subscription._id.toString(),
+                // avoids serialization issues when sending over network
+            },
+        });
+
+        res.status(201).json({ success: true, data: subscription, workflowRunId });
     }
     catch (error) {
         next(error);

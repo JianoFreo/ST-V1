@@ -221,3 +221,17 @@ https://docs.arcjet.com/get-started?f=node-js-express
 npm install @upstash/workflow
 ```
 what is upstash workflow? Upstash Workflow is a serverless workflow orchestration service that allows you to design, execute, and manage complex workflows in a scalable and efficient manner. It provides a way to define a series of tasks or steps that can be executed in a specific order, with support for error handling, retries, and parallel execution. Upstash Workflow is built on top of the Upstash serverless database, which provides low-latency data storage and retrieval capabilities. By using Upstash Workflow, you can easily create and manage workflows for various use cases such as data processing, automation, and integration with other services.
+---
+## install day js for the date manipulation in the workflow
+```bash
+npm install dayjs
+```
+---
+```bash
+npx @upstash/qstash-cli dev
+```
+what is qstash? QStash is a serverless message queue and scheduler service provided by Upstash. It allows you to enqueue and schedule tasks or messages to be processed asynchronously. With QStash, you can create queues to hold messages that need to be processed, and workers that consume those messages and perform the necessary actions. It supports features such as delayed messages, retries, and dead-letter queues for handling failed messages. QStash is designed to be scalable and efficient, making it suitable for various use cases such as background processing, task scheduling, and event-driven architectures.
+
+put the qstash URL in the .env file and import it in the env.js file to use it in the workflow file
+
+and put the old qstash keys to the production
