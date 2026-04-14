@@ -91,35 +91,67 @@ in the collection. */}, { timestamps: true });
 executed before a document is saved to the database. In this specific case,
 the `subscriptionSchema.pre('save', function (next) { ... })` middleware is
 being used to perform some logic before saving a subscription document. */
-subscriptionSchema.pre('save', function (next) {
+//next is a callback function that you call when you are done with your pre-save logic,
+//  to proceed with the creation of the document or the schema in the database. 
+// If you don't call next(), the save operation will not complete and the document will not be saved to the database.
+
+
+//=====================The problem with the first version of the pre-save middleware:========================
+// this would only work on older version of mongoose, because in newer versions of mongoose, the pre-save middleware is async by default, so you need to use async/await or return a promise, otherwise it will not work properly, and you may end up with unhandled promise rejections or other issues. So the second version of the pre-save middleware is the correct way to do it in newer versions of mongoose.
+// subscriptionSchema.pre('save', function (next) {
+//     if (!this.renewalDate) {
+//         const renewalPeriods = {
+//             daily: 1,
+//             weekly: 7,
+//             monthly: 30,
+//             yearly: 365,
+
+//         };
+//         // Example
+//         // Jan 1st
+//         // 30 days
+//         // Jan 31st
+//         this.renewalDate = new Date(this.startDate);
+//         this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency]);
+//     }
+//     if (this.renewalDate < new Date()) {
+//         this.status = 'expired';
+//     }
+//     next(); //Proceed with the creation of the document or the schema in the database
+// })
+
+//=====================The correct version of the pre-save middleware:========================
+// That works on newer versions of mongoose, because in newer versions of mongoose, the pre-save middleware is async by default, 
+// so you need to use async/await or return a promise, otherwise it will not work properly, 
+// and you may end up with unhandled promise rejections or other issues. 
+// So the second version of the pre-save middleware is the correct way to do it in newer versions of mongoose.
+subscriptionSchema.pre('save', async function () {
     if (!this.renewalDate) {
         const renewalPeriods = {
             daily: 1,
             weekly: 7,
             monthly: 30,
             yearly: 365,
-
         };
-        // Example
-        // Jan 1st
-        // 30 days
-        // Jan 31st
+
         this.renewalDate = new Date(this.startDate);
-        this.renewalDate.setDate(this.renewalDate.getDate() + renewalPeriods[this.frequency]);
+        this.renewalDate.setDate(
+            this.renewalDate.getDate() + renewalPeriods[this.frequency]
+        );
     }
+
     if (this.renewalDate < new Date()) {
         this.status = 'expired';
     }
-    next(); //Proceed with the creation of the document or the schema in the database
-})
+});
 
 
 
 
-/* `const User = mongoose.model('User', userSchema);` is creating a Mongoose model named 'User' based
-on the userSchema that was defined earlier. This model will allow you to interact with the 'User'
+/* `const Subscription = mongoose.model('Subscription', subscriptionSchema);` is creating a Mongoose model named 'Subscription' based
+on the subscriptionSchema that was defined earlier. This model will allow you to interact with the 'Subscription'
 collection in the MongoDB database. By defining a model, you can perform operations such as
 creating, reading, updating, and deleting user documents in the database using Mongoose methods. */
-const Subscription = mongoose.model('Subscription', userSchema);
+const Subscription = mongoose.model('Subscription', subscriptionSchema);
 
 export default Subscription;
