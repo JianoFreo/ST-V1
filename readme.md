@@ -214,3 +214,10 @@ export async function POST(req: Request) {
 what is arcjet? Arcjet is a security and bot management platform that provides tools and services to protect web applications from various types of attacks, including bots, malicious traffic, and other security threats. It offers features such as bot detection, rate limiting, and traffic analysis to help safeguard applications and ensure they are only accessed by legitimate users. By integrating Arcjet into your application, you can enhance its security and mitigate potential risks associated with automated traffic and malicious actors.
 
 https://docs.arcjet.com/get-started?f=node-js-express
+---
+# Workflows
+### Install upstash workflow
+```bash
+npm install @upstash/workflow
+```
+what is upstash workflow? Upstash Workflow is a serverless workflow orchestration service that allows you to design, execute, and manage complex workflows in a scalable and efficient manner. It provides a way to define a series of tasks or steps that can be executed in a specific order, with support for error handling, retries, and parallel execution. Upstash Workflow is built on top of the Upstash serverless database, which provides low-latency data storage and retrieval capabilities. By using Upstash Workflow, you can easily create and manage workflows for various use cases such as data processing, automation, and integration with other services.
