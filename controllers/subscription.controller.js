@@ -73,9 +73,9 @@ export const createSubscription = async (req, res, next) => {
         // and you may end up with unhandled promise rejections or other issues. So the second version of the pre-save middleware is the 
         // correct way to do it in newer versions of mongoose.
 
-        //await workflowClient.trigger({url, body, headers, workflowRunId, retries} , {
+        // await workflowClient.trigger({url, body, headers, workflowRunId, retries} , {
         //     url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
-        // })
+        // });
 
         const { workflowRunId }  = await workflowClient.trigger({
             url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
