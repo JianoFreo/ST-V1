@@ -18,7 +18,6 @@ const app = express();
 // this is where we use the routers we created in the routes folder.
 //Built in middlewares
 
-
 app.use(arcjetMiddleware); // Add the Arcjet middleware to protect routes
 
 // Built in middlewares

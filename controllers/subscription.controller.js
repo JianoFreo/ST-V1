@@ -80,7 +80,7 @@ export const createSubscription = async (req, res, next) => {
         const { workflowRunId }  = await workflowClient.trigger({
             url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
             body: {
-                subscriptionID: subscription._id.toString(),
+                subscriptionId: subscription._id.toString(),
                 // avoids serialization issues when sending over network
             },
         });

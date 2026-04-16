@@ -20,7 +20,8 @@ export const {
     ARCJET_KEY,
     ARCJET_ENV,
     QSTASH_TOKEN,
-    QSTASH_URL
+    QSTASH_URL,
+    EMAIL_PASSWORD
 } = process.env; // switch between dev and prod without overriding one another
 
 // what is process .env? it is an object that contains all the environment variables that are defined in the .env file, and it is also available globally in the Node.js environment, so we can access it from anywhere in our code.

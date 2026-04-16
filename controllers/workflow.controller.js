@@ -12,7 +12,10 @@ const { serve } = require('@upstash/workflow/express');
 
 export const sendReminders = serve(async (context) => {
     const { subscriptionId } = context.requestPayload;
+    console.log(`Server workflow: received reminder request for subscription ${subscriptionId}`);
+
     const subscription = await fetchSubscription(context, subscriptionId);
+    console.log(`Server workflow: fetched subscription ${subscriptionId}`, subscription ? subscription.status : 'not found');
 
     if (!subscription || subscription.status !== 'active') return;
 
@@ -37,13 +40,13 @@ const fetchSubscription = async (context, subscriptionId) => {
 }
 
 const sleepUntilReminder = async (context, label, date) => {
-    console.log(`Server workflow: sleeping until ${label} at ${date.toISOString()}`);
+    console.log(`Server workflow: sleeping until ${label} at ${date}`);
     await context.sleepUntil(label, date.toDate());
 }
 
 const triggerReminder = async (context, label) => {
     return await context.run(label, () => {
-        console.log(`Server workflow: triggering ${label}`);
+        console.log(`triggering ${label} reminder`);
         // send email, sms, push notification
 
     })
