@@ -230,6 +230,9 @@ npm install dayjs
 ```bash
 npx @upstash/qstash-cli dev
 ```
+How to run qstash? To run QStash, you can use the command `npx @upstash/qstash-cli dev` in your terminal. This command starts the QStash development server, allowing you to test and develop your message queues and scheduled tasks locally. Make sure you have the necessary environment variables set up in your .env file for QStash to function properly. Once the server is running, you can enqueue messages and schedule tasks to be processed asynchronously by your workers.
+
+
 what is qstash? QStash is a serverless message queue and scheduler service provided by Upstash. It allows you to enqueue and schedule tasks or messages to be processed asynchronously. With QStash, you can create queues to hold messages that need to be processed, and workers that consume those messages and perform the necessary actions. It supports features such as delayed messages, retries, and dead-letter queues for handling failed messages. QStash is designed to be scalable and efficient, making it suitable for various use cases such as background processing, task scheduling, and event-driven architectures.
 
 put the qstash URL in the .env file and import it in the env.js file to use it in the workflow file
