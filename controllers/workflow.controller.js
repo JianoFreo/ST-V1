@@ -13,7 +13,11 @@ const { serve } = require('@upstash/workflow/express');
 
 export const sendReminders = serve(async (context) => {
     const { subscriptionId } = context.requestPayload;
+    console.log(`Server workflow: received reminder request for subscription ${subscriptionId}`);
+
     const subscription = await fetchSubscription(context, subscriptionId);
+    console.log(`Server workflow: fetched subscription ${subscriptionId}`, subscription ? subscription.status : 'not found');
+
     if (!subscription || subscription.status !== 'active') return;
 
     const renewalDate = dayjs(subscription.renewalDate);
@@ -24,12 +28,16 @@ export const sendReminders = serve(async (context) => {
 
     for (const daysBefore of REMINDERS) {
         const reminderDate = renewalDate.subtract(daysBefore, 'day');
+        if (dayjs().isAfter(reminderDate)) {
+            console.log(`Skipping ${daysBefore} day reminder for subscription ${subscriptionId} because the reminder date has already passed.`);
+            continue;
+        }
+        
         if (reminderDate.isAfter(dayjs())) {
             await sleepUntilReminder(context, `Reminder ${daysBefore} days before`, reminderDate);
         }
-        if (dayjs().isSame(reminderDate, 'day')) {
-            await triggerReminder(context, `${daysBefore} days before reminder`, subscription);
-        }
+
+        await triggerReminder(context, `${daysBefore} days before reminder`, subscription);
     }
 });
 
@@ -47,6 +55,7 @@ const sleepUntilReminder = async (context, label, date) => {
 const triggerReminder = async (context, label, subscription) => {
     return await context.run(label, async () => {
         console.log(`triggering ${label} reminder`);
+        console.log(`sending reminder email to ${subscription.user.email}`);
         await sendReminderEmail({
             to: subscription.user.email,
             type: label, subscription,

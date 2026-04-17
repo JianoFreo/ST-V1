@@ -21,6 +21,8 @@ export const {
     ARCJET_ENV,
     QSTASH_TOKEN,
     QSTASH_URL,
+    QSTASH_CURRENT_SIGNING_KEY,
+    QSTASH_NEXT_SIGNING_KEY,
     EMAIL_PASSWORD
 } = process.env; // switch between dev and prod without overriding one another
 

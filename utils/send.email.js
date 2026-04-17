@@ -28,9 +28,11 @@ export const sendReminderEmail = async ({ to, type, subscription }) => {
         html: message,
     }
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) return console.log(error, 'Error sending email');
-
-        console.log('Email sent: ' + info.response);
-    })
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`Email sent to ${to}: ${info.response}`);
+    } catch (error) {
+        console.log(error, 'Error sending email');
+        throw error;
+    }
 }

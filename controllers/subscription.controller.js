@@ -63,6 +63,8 @@ export const subscriptionDetails = async (req, res, next) => {
 
 export const createSubscription = async (req, res, next) => {
     try {
+        console.log('createSubscription: received request');
+
         const subscription = await Subscription.create({
             ...req.body,
             user: req.user._id
@@ -85,9 +87,12 @@ export const createSubscription = async (req, res, next) => {
             },
         });
 
+        console.log('createSubscription: workflow triggered', workflowRunId, subscription._id.toString());
+
         res.status(201).json({ success: true, data: subscription, workflowRunId });
     }
     catch (error) {
+        console.log('createSubscription: failed', error.message);
         next(error);
     }
 }
