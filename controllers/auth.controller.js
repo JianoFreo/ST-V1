@@ -6,6 +6,12 @@ import User from '../models/user.model.js';
 import { JWT_SECRET, JWT_EXPIRES_IN } from '../config/env.js'
 
 export const signUp = async (req, res, next) => {
+  /* `const session = await mongoose.startSession();` creates a new session using Mongoose, which
+  allows you to start a transaction within that session. `session.startTransaction();` starts a
+  transaction within the session, which means that all subsequent database operations within this
+  session will be part of the same transaction. This is commonly used when you need to perform
+  multiple database operations that should be treated as a single unit of work, ensuring that either
+  all operations succeed or none of them are applied. */
   const session = await mongoose.startSession();
   session.startTransaction();
 
