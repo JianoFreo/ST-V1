@@ -1,5 +1,3 @@
-Use this exact Postman flow.
-
 1. Sign up (or use existing user)
 - Method: POST
 - URL: http://127.0.0.1:5500/api/v1/auth/sign-up
@@ -47,5 +45,3 @@ Important:
 
 Why this payload works for testing:
 - renewalDate is very near, so reminders are not far in the future, and your workflow can trigger quickly instead of sleeping for days.
-
-If you want, I can give you one copy-paste Postman collection JSON next so you can import everything in one shot.
