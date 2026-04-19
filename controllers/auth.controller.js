@@ -12,7 +12,13 @@ export const signUp = async (req, res, next) => {
   session will be part of the same transaction. This is commonly used when you need to perform
   multiple database operations that should be treated as a single unit of work, ensuring that either
   all operations succeed or none of them are applied. */
-  const session = await mongoose.startSession();
+
+
+
+// creating this data doesnt really need a transaction becuase it only handles 1 database which is adding
+// although this is just a demo on how to use transaction
+
+  const session = await mongoose.startSession(); 
   session.startTransaction();
 
   try {
@@ -46,7 +52,7 @@ export const signUp = async (req, res, next) => {
         user: newUsers[0],
       }
     })
-  } catch (error) {
+  } catch (error) { // rollback, if something fails it aborts the transaction
     await session.abortTransaction();
     session.endSession();
     next(error);
